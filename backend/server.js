@@ -1,5 +1,3 @@
-require('dotenv').config(); // This should be the very first line
-
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -8,10 +6,12 @@ const eventsRouter = require('./routes/events');
 const ticketsRouter = require('./routes/tickets');
 const authRouter = require('./routes/auth');
 const paymentRouter = require('./routes/payment')
+const adminRouter = require('./routes/admin')
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
 
+require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -158,6 +158,23 @@ app.use(bodyParser.json());
     *         password:
     *           type: string
     *           description: The password of the user
+    *     PaymentInput:
+    *         type: 'object',
+    *           required: ['amount', 'payment_method', 'ticketId'],
+    *           properties: {
+    *               amount: {
+    *                 type: 'integer',
+    *                 description: 'The amount of the payment intent',
+    *                },
+    *                payment_method: {
+    *                   type: 'string',
+    *                    description: 'The stripe payment method',
+    *                     },
+    *                     ticketId: {
+    *                        type: 'string',
+    *                      description: 'The id of the ticket'
+    *                     },
+    *              },
     */
 
 app.get('/', (req, res) => {
@@ -172,6 +189,7 @@ app.use('/auth', authRouter)
 app.use('/events', eventsRouter);
 app.use('/tickets', ticketsRouter);
 app.use('/payment', paymentRouter);
+app.use('/admin', adminRouter)
 
 
 // Start server
