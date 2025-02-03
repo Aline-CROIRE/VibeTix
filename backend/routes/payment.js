@@ -58,7 +58,7 @@ router.post('/', protect, async (req, res) => {
         const {amount, payment_method, ticketId} = req.body;
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
-            currency: 'usd',
+            currency: 'Rwf',
             payment_method: payment_method,
             confirm: true,
             return_url: 'http://localhost:3000',
